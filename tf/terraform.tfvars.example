@@ -1,0 +1,18 @@
+# Copy this file to terraform.tfvars and fill in
+
+aws_region = "us-east-1"
+
+app_name = "snow-weather"
+
+# phone number
+phone_number = "XXXXXXXXXX"
+
+# Schedule: cron(0 */6 * * ? *) = every 6 hours
+# cron(0 8,20 * * ? *) = 8am and 8pm UTC daily
+schedule_expression = "cron(0 */6 * * ? *)"
+
+tags = {
+  Environment = "production"
+  ManagedBy   = "Terraform"
+  Project     = "snow-weather"
+}

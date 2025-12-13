@@ -13,6 +13,18 @@ pip install -r requirements.txt
 pip install -r requirements-dev.txt  # for dev
 ```
 
+## Local Dev Checks
+```
+# Format code
+black src/     
+
+# Lint code     
+ruff check src/  
+
+# Type check   
+mypy src/           
+```
+
 ## Run Locally
 ```bash
 python src/api/weather.py

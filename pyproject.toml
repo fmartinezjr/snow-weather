@@ -1,46 +1,4 @@
-[build-system]
-requires = ["setuptools>=65.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "snow-weather-alert"
-version = "1.0.0"
-description = "Snow weather alerts"
-authors = [
-    {name = "Francisco", email = "franciscomj345@gmail.com"}
-]
-readme = "README.md"
-requires-python = ">=3.12"
-license = {text = "MIT"}
-
-dependencies = [
-    "boto3>=1.28.0",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.4.0",
-    "pytest-cov>=4.1.0",
-    "black>=23.7.0",
-    "mypy>=1.5.0",
-    "pylint>=2.17.0",
-    "ruff>=0.0.285",
-    "boto3-stubs[sns]>=1.28.0",
-]
-
-test = [
-    "pytest>=7.4.0",
-    "pytest-cov>=4.1.0",
-    "pytest-mock>=3.11.0",
-    "moto>=4.2.0",
-]
-
-[tool.setuptools]
-packages = ["snow_weather_alert"]
-package-dir = {"snow_weather_alert" = "src"}
-
-[tool.setuptools.package-data]
-snow_weather_alert = ["py.typed"]
+# Tool configuration only - this is not installed as a package
 
 [tool.black]
 line-length = 100

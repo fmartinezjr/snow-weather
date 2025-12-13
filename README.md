@@ -9,11 +9,11 @@ Create a virtual environment and install dependencies:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install --upgrade pip
-pip install -e ".[dev,test]"
+pip install -r requirements.txt
+pip install -r requirements-dev.txt  # for dev
 ```
 
-## Test locally
-```
-python -m src.lambda_function
+## Run Locally
+```bash
+python src/lambda_function.py
 ```

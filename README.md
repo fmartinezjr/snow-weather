@@ -15,5 +15,5 @@ pip install -r requirements-dev.txt  # for dev
 
 ## Run Locally
 ```bash
-python src/lambda_function.py
+python src/api/weather.py
 ```

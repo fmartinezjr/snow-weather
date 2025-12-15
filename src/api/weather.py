@@ -12,7 +12,7 @@ class Config:
     KEYSTONE_LAT: float = 39.6
     KEYSTONE_LON: float = -105.93
     NWS_USER_AGENT: str = "SnowWeatherAlert/1.0"
-    FORECAST_PERIODS_TO_CHECK: int = 3
+    FORECAST_PERIODS_TO_CHECK: int = 5
     SNOW_KEYWORDS: tuple[str, ...] = ("snow", "flurries", "wintry mix", "winter weather", "blizzard")
 
 

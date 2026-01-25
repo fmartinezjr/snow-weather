@@ -18,7 +18,7 @@ class NotificationService:
         self.sns_client = boto3.client("sns")
 
     def _build_message(self, snow_periods: list[SnowPeriod]) -> str:
-        message_parts = ["❄️ SNOW ALERT for Keystone, CO!\n"]
+        message_parts = ["SNOW ALERT for Keystone, CO!\n"]
 
         for period in snow_periods:
             message_parts.append(f"{period.name}: {period.forecast}")

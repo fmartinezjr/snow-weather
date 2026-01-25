@@ -33,7 +33,16 @@ class NotificationService:
         logger.info(f"Sending SMS to {self.phone_number}")
 
         try:
-            response = self.sns_client.publish(PhoneNumber=self.phone_number, Message=message)
+            response = self.sns_client.publish(
+                PhoneNumber=self.phone_number,
+                Message=message,
+                MessageAttributes={
+                    'AWS.SNS.SMS.SMSType': {
+                        'DataType': 'String',
+                        'StringValue': 'Transactional'
+                    }
+                }
+            )
             message_id = response["MessageId"]
             logger.info(f"SMS sent successfully. MessageId: {message_id}")
             return True

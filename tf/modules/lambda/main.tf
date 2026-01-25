@@ -46,10 +46,9 @@ resource "aws_iam_role_policy" "lambda_logs" {
   })
 }
 
-# IAM Policy that allows Lambda function to send SMS
-# Allows the lambda function to publish messages to Amazon SNS
-resource "aws_iam_role_policy" "lambda_sns" {
-  name = "${var.app_name}-lambda-sns"
+# IAM Policy that allows Lambda function to send email via SES
+resource "aws_iam_role_policy" "lambda_ses" {
+  name = "${var.app_name}-lambda-ses"
   role = aws_iam_role.lambda_role.id
 
   policy = jsonencode({
@@ -58,7 +57,8 @@ resource "aws_iam_role_policy" "lambda_sns" {
       {
         Effect = "Allow"
         Action = [
-          "sns:Publish"
+          "ses:SendEmail",
+          "ses:SendRawEmail"
         ]
         Resource = "*"
       }
@@ -78,7 +78,7 @@ resource "aws_lambda_function" "snow_checker" {
 
   environment {
     variables = {
-      PHONE_NUMBER = var.phone_number
+      EMAIL = var.email
     }
   }
 

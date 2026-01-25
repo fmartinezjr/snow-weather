@@ -10,8 +10,8 @@ variable "app_name" {
   default     = "snow-weather"
 }
 
-variable "phone_number" {
-  description = "Phone number to receive SMS alerts in"
+variable "email" {
+  description = "Email address to receive snow alerts"
   type        = string
 }
 

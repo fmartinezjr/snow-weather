@@ -3,8 +3,8 @@ variable "app_name" {
   type        = string
 }
 
-variable "phone_number" {
-  description = "Phone number to receive SMS alerts in E.164 format"
+variable "email" {
+  description = "Email address to receive snow alerts"
   type        = string
 }
 

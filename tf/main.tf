@@ -1,8 +1,8 @@
 module "lambda" {
-  source       = "./modules/lambda"
-  app_name     = var.app_name
-  phone_number = var.phone_number
-  tags         = var.tags
+  source   = "./modules/lambda"
+  app_name = var.app_name
+  email    = var.email
+  tags     = var.tags
 }
 
 module "eventbridge" {

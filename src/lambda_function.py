@@ -13,9 +13,9 @@ logger.setLevel(logging.INFO)
 
 
 class NotificationService:
-    def __init__(self, phone_number: str):
-        self.phone_number = phone_number
-        self.sns_client = boto3.client("sns")
+    def __init__(self, email: str):
+        self.email = email
+        self.ses_client = boto3.client("ses")
 
     def _build_message(self, snow_periods: list[SnowPeriod]) -> str:
         message_parts = ["SNOW ALERT for Keystone, CO!\n"]
@@ -30,28 +30,26 @@ class NotificationService:
 
     def send_alert(self, snow_periods: list[SnowPeriod]) -> bool:
         message = self._build_message(snow_periods)
-        logger.info(f"Sending SMS to {self.phone_number}")
+        logger.info(f"Sending email to {self.email}")
 
         try:
-            response = self.sns_client.publish(
-                PhoneNumber=self.phone_number,
-                Message=message,
-                MessageAttributes={
-                    'AWS.SNS.SMS.SMSType': {
-                        'DataType': 'String',
-                        'StringValue': 'Transactional'
-                    }
+            response = self.ses_client.send_email(
+                Source="Snow Alert <panchventures@outlook.com>",
+                Destination={"ToAddresses": ["franciscomj345@gmail.com"]},
+                Message={
+                    "Subject": {"Data": "SNOW ALERT for Keystone, CO!"},
+                    "Body": {"Text": {"Data": message}}
                 }
             )
             message_id = response["MessageId"]
-            logger.info(f"SMS sent successfully. MessageId: {message_id}")
+            logger.info(f"Email sent successfully. MessageId: {message_id}")
             return True
 
         except ClientError as e:
-            logger.error(f"AWS SNS client error: {e}")
+            logger.error(f"AWS SES client error: {e}")
             return False
         except Exception as e:
-            logger.error(f"Error sending SMS: {e}")
+            logger.error(f"Error sending email: {e}")
             return False
 
 
@@ -71,22 +69,22 @@ def lambda_handler(event: dict, context: object) -> dict[str, str | int]:
     if has_snow:
         logger.info(f"Snow detected! Found {len(snow_periods)} periods with snow")
 
-        phone_number = os.environ.get("PHONE_NUMBER")
-        if not phone_number:
-            logger.error("PHONE_NUMBER environment variable not set")
+        email = os.environ.get("EMAIL")
+        if not email:
+            logger.error("EMAIL environment variable not set")
             return {
                 "statusCode": 200,
                 "body": json.dumps(
                     {
-                        "message": "Snow detected but alert failed (no phone number)",
+                        "message": "Snow detected but alert failed (no email)",
                         "snow_periods": len(snow_periods),
                         "periods": [p.to_dict() for p in snow_periods],
                     }
                 ),
             }
 
-        notification_service = NotificationService(phone_number)
-        sms_sent = notification_service.send_alert(snow_periods)
+        notification_service = NotificationService(email)
+        email_sent = notification_service.send_alert(snow_periods)
 
         return {
             "statusCode": 200,
@@ -94,7 +92,7 @@ def lambda_handler(event: dict, context: object) -> dict[str, str | int]:
                 {
                     "message": (
                         "Snow detected and alert sent"
-                        if sms_sent
+                        if email_sent
                         else "Snow detected but alert failed"
                     ),
                     "snow_periods": len(snow_periods),
